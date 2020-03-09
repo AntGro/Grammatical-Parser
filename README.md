@@ -84,4 +84,4 @@ chmod +x run.sh
 
 ##### Indication on execution time for test sentences taken from the [sequoia corpus](https://github.com/edupoux/MVA_2020_SL/blob/master/TD_%232/sequoia-corpus%2Bfct.mrg_strict):
 
-<img src="./image/execution_times.png" style="zoom:50%;" />
+<img src="./image/execution_times.png" style="zoom:35%;" />
