@@ -78,10 +78,10 @@ chmod +x run.sh
 
 ##### Example of prediction:
 
-![](/Users/antoinegrosnit/Desktop/MVA/P2/Speech-NLP/TP2/image/les_espaces_infinis.png)
+![](./image/les_espaces_infinis.png)
 
 
 
 ##### Indication on execution time for test sentences taken from the [sequoia corpus](https://github.com/edupoux/MVA_2020_SL/blob/master/TD_%232/sequoia-corpus%2Bfct.mrg_strict):
 
-<img src="/Users/antoinegrosnit/Desktop/MVA/P2/Speech-NLP/TP2/image/execution_times.png" style="zoom:50%;" />
+<img src="./image/execution_times.png" style="zoom:50%;" />
