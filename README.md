@@ -2,11 +2,13 @@
 
 # French grammatical parser
 
-#### Course project (MVA Course "Algorithms for speech and language processing", 2020, Dupoux, Zeghidour & Sagot) 
+#### Course project ([MVA Course "Algorithms for speech and language processing", 2020, Dupoux, Zeghidour & Sagot](https://github.com/edupoux/MVA_2020_SL)) 
 
 The goal of this project was to develop a basic probabilistic parser for French, based on the CYK algorithm and the PCFG model and that is robust to unknown words.
 
+Parser can be trained on annotated dataset [sequoia corpus](https://github.com/edupoux/MVA_2020_SL/blob/master/TD_%232/sequoia-corpus%2Bfct.mrg_strict).
 
+ The proposed OOV module uses French word embeddings, which can be given by [the Polyglot embedding lexicon for French](https://sites.google.com/site/rmyeid/projects/polyglot).
 
 ## Run the parser (file: ```run.sh```):
 
@@ -60,6 +62,8 @@ optional arguments:
 
 ## Examples
 
+##### Example of configurations
+
 ```bash
 chmod +x run.sh
 
@@ -70,3 +74,14 @@ chmod +x run.sh
 ./run.sh -t='sequoia-corpus+fct.mrg_strict' -T='test_file.txt' -m='prediction' --train_end=0.8 --test_start=0 -b=100 -e='polyglot-fr.pkl' -o='test_file_output.txt'
 ```
 
+
+
+##### Example of prediction:
+
+![](/Users/antoinegrosnit/Desktop/MVA/P2/Speech-NLP/TP2/image/les_espaces_infinis.png)
+
+
+
+##### Indication on execution time for test sentences taken from the [sequoia corpus](https://github.com/edupoux/MVA_2020_SL/blob/master/TD_%232/sequoia-corpus%2Bfct.mrg_strict):
+
+<img src="/Users/antoinegrosnit/Desktop/MVA/P2/Speech-NLP/TP2/image/execution_times.png" style="zoom:50%;" />
