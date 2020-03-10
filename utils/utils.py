@@ -124,13 +124,13 @@ def evel_prediction(labels, true_labels):
     return np.mean(np.array(labels) == np.array(true_labels))
 
 
-def evaluate(sentences, true_labels, p_gram_rules, p_lexicon, rhs_index,
-             oov_handler, p_output=False, beam=10, chrono=False):
+def evaluate(sentences, true_labels, p_gram_rules, p_lexicon, rhs_index, unary_dic, oov_handler, p_output=False,
+             beam=10, chrono=False):
     if type(sentences[0]) != list:
         sentences, true_labels = [sentences], [true_labels]
     assert type(true_labels[0]) == type(sentences[0])
 
-    returns = predict(sentences, p_gram_rules, p_lexicon, rhs_index, oov_handler, p_output, beam, chrono)
+    returns = predict(sentences, p_gram_rules, p_lexicon, rhs_index, unary_dic, oov_handler, p_output, beam, chrono)
     predictions, parsed_rate = returns[:2]
     score = 0
     for j in range(len(sentences)):
@@ -144,8 +144,8 @@ def evaluate(sentences, true_labels, p_gram_rules, p_lexicon, rhs_index,
     return predictions, parsed_rate, score
 
 
-def predict(sentences, p_gram_rules, p_lexicon, rhs_index,
-            oov_handler, p_output=False, beam=10, chrono=False):
+def predict(sentences, p_gram_rules, p_lexicon, rhs_index, unary_dic, oov_handler, p_output=False, beam=10,
+            chrono=False):
     if type(sentences[0]) != list:
         sentences = [sentences]
 
@@ -154,8 +154,8 @@ def predict(sentences, p_gram_rules, p_lexicon, rhs_index,
     parsed = 0
     parsing_bracketed_str = []
     for j, sentence in tqdm(enumerate(sentences)):
-        results = cyk(sentence, p_gram_rules, p_lexicon, rhs_index, oov_handler=oov_handler,
-                      beam=beam, chrono=chrono)
+        results = cyk(sentence, p_gram_rules, p_lexicon, rhs_index, unary_dic, oov_handler=oov_handler, beam=beam,
+                      chrono=chrono)
         if chrono:
             t1[j] = results[2]
             t2[j] = results[3]

@@ -1,6 +1,6 @@
 import time
 from collections import Callable
-from typing import Dict, Tuple, List
+from typing import Dict, Tuple, List, Set
 
 import nltk
 import numpy as np
@@ -10,22 +10,20 @@ from nltk import tree
 from utils.data_process import ProbabilisticLexicon
 
 
-def cyk(sentence: str,
-        p_gram_rules: nltk.grammar.PCFG,
-        p_lexicon: ProbabilisticLexicon,
+def cyk(sentence: str, p_gram_rules: nltk.grammar.PCFG, p_lexicon: ProbabilisticLexicon,
         rhs_index: Dict[Tuple[nltk.Nonterminal, nltk.Nonterminal], List[nltk.grammar.Production]],
-        oov_handler: Callable,
-        beam: int = 2,
-        chrono: object = False):
+        unary_dic: Set[nltk.Nonterminal], oov_handler: Callable, beam: int = 2, chrono: object = False):
     """ Apply cyk algorithm
-    :param : sentence: str or List[str]
+    :param sentence: str or List[str]
         input sentence
-    :param : p_gram_rules: nltk.grammar.PCFG
-    :param : p_lexicon: ProbabilisticLexicon
-    :param : beam: int
-    :param : oov_handler: fct(str) -> str (word in training vocabulary)
-    :param : rhs_index: dict(k: (tag, tag), v: list of grammar_rules)
-    :param : chrono: boolean
+    :param p_gram_rules: nltk.grammar.PCFG
+    :param p_lexicon: ProbabilisticLexicon
+    :param beam: int
+    :param oov_handler: fct(str) -> str (word in training vocabulary)
+    :param rhs_index: dict(k: (tag, tag), v: list of grammar_rules)
+    :param unary_dic: Set[nltk.Nonterminal]
+        set of tags involved in a unary rule with start element of the p_grammar
+    :param chrono: boolean
         whether to return execution times for the two steps of cyk
     """
 
@@ -67,7 +65,7 @@ def cyk(sentence: str,
             for k in range(j, j + i):
                 # elements [j, k] | [k + 1, j + i]
                 candidates = get_membership(membership_table[k - j][j], membership_table[j + i - k - 1][k + 1],
-                                            rhs_index, beam=beam, thr=log_prob_thr,
+                                            rhs_index, unary_dic, beam=beam, thr=log_prob_thr,
                                             require_start=(p_gram_rules.start() if i == len(sentence) - 1 else None))
                 if len(candidates) > 0:
                     best_candidates.extend(candidates)
@@ -93,9 +91,10 @@ def cyk(sentence: str,
     return to_return
 
 
-def get_membership(l_tags, r_tags, rhs_index, beam=2, thr=-np.inf, require_start=None):
+def get_membership(l_tags, r_tags, rhs_index, unary_dic, beam=2, thr=-np.inf, require_start=None):
     """ Return the #beam most probable triplets (tag, logprob, subtree) for given left_tag and right_tag (rule: tag
     -> left_tag right_tag) """
+
     best_candidates = []
     for l_tag, l_logprob, l_subtree in l_tags:
         for r_tag, r_logprob, r_subtree in r_tags:
@@ -103,10 +102,18 @@ def get_membership(l_tags, r_tags, rhs_index, beam=2, thr=-np.inf, require_start
                 continue
             candidates = rhs_index[(l_tag, r_tag)][:beam]  # already sorted in decreasing order
             for candidate in candidates:
-                if require_start is not None and require_start != candidate.lhs():
-                    continue
-                logprob = candidate.logprob() + l_logprob + r_logprob
                 tag = candidate.lhs()
+                if require_start is not None:  # tree starting with tag require_start is required
+                    if require_start != tag and tag not in unary_dic:  # candidate tag cannot fulfill requirements
+                        continue
+                    if tag in unary_dic:  # candidate tag fulfill requirements up to a unary branch
+                        logprob = candidate.logprob() + l_logprob + r_logprob + np.log(unary_dic[tag])
+                        if logprob >= thr:
+                            aux_tree = tree.Tree(str(tag), [l_subtree, r_subtree])
+                            tag = require_start
+                            best_candidates.append([require_start, logprob, tree.Tree(str(tag), [aux_tree])])
+                        continue
+                logprob = candidate.logprob() + l_logprob + r_logprob
                 if logprob >= thr:
                     best_candidates.append([tag, logprob, tree.Tree(str(tag), [l_subtree, r_subtree])])
     return best_candidates

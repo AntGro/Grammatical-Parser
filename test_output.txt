@@ -1,3 +1,3 @@
-( (SENT (PP (P À) (NP (DET la) (NC recherche) (VPpart (NP (DET du) (NC temps)) (VPP perdu)))) (PONCT .)))
-( (SENT (NP (DET le) (NC silence) (ADJ éternel)) (PP (P de) (NP (DET ces) (NC espaces) (ADJ infinis))) (VN (CLR m') (V effraie)) (PONCT .)))
-( (SENT (DET Ce) (NP (PROREL qui)) (ADV ne) (CLS nous) (AP (ADJ tue)) (ADV pas) (CLS nous) (V rend) (ADV plus) (AP (ADJ forts)) (PONCT ?)))
+( (SENT (PP (P À) (NP (DET la) (NC recherche) (VPpart (NP (DET du) (NC temps)) (VPP perdu)) (PONCT .)))))
+( (SENT (NP (DET Le) (NC silence) (AP (ADJ éternel)) (PP (P de) (Sint (NP (DET ces) (NC espaces) (ADJ infinis)) (VN (CLR m') (V effraie)) (PONCT .))))))
+( (SENT (DET Ce) (NP (PROREL qui)) (ADV ne) (CLS nous) (VPP tue) (ADV pas) (CLS nous) (V rend) (ADV plus) (AP (ADJ forts)) (PONCT ?)))

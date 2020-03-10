@@ -129,12 +129,16 @@ def get_train_data(path, start=0, end=1):
     # we have binarized grammar rules
     assert train_grammar_rules.is_binarised()
 
+    train_unary_rules = [r for r in train_grammar_rules.productions() if len(r.rhs()) == 1]
+
     # the only unitary rules involve the starting element of grammar
-    assert all(map(lambda rule: rule.lhs() == train_grammar_rules.start(),
-                   [r for r in train_grammar_rules.productions() if len(r.rhs()) == 1]))
+    assert all(map(lambda rule: rule.lhs() == train_grammar_rules.start(), train_unary_rules))
+
+    # set of tags involved in an unary rule with grammar start
+    train_unary_dic = {r.rhs()[0]: r.prob() for r in train_unary_rules}
 
     print("Done")
-    return train_vocabulary, train_grammar_rules, train_rhs_index, train_prob_lexicon
+    return train_vocabulary, train_grammar_rules, train_rhs_index, train_unary_dic, train_prob_lexicon
 
 
 def build_rhs_index(grammar_rules):

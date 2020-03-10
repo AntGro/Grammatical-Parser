@@ -57,8 +57,10 @@ def main():
         print("## Don't save predictions")
     print('##\n' + "#" * 100)
 
-    train_vocabulary, train_grammar_rules, train_rhs_index, train_prob_lexicon = get_train_data(train_path, train_start,
-                                                                                                train_end)
+    train_vocabulary, train_grammar_rules, train_rhs_index, train_unary_dic, train_prob_lexicon = get_train_data(
+        train_path, train_start,
+        train_end)
+
     if mode in ('prediction', 'p'):
         test_sentences = get_to_predict_data(test_path, test_start, test_end)
     elif mode in ('evaluation', 'e'):
@@ -89,12 +91,11 @@ def main():
 
     if mode in ('evaluation', 'e'):
         parsed_str, score, parsed = evaluate(test_sentences, test_labels, train_grammar_rules, train_prob_lexicon,
-                                             train_rhs_index, oov_handler,
-                                             p_output=True, beam=beam, chrono=True)
+                                             train_rhs_index, train_unary_dic, oov_handler, p_output=True, beam=beam,
+                                             chrono=True)
     elif mode in ('prediction', 'p'):
         parsed_str, parsed = predict(test_sentences, train_grammar_rules, train_prob_lexicon, train_rhs_index,
-                                     oov_handler,
-                                     p_output=True, beam=beam, chrono=True)
+                                     train_unary_dic, oov_handler, p_output=True, beam=beam, chrono=True)
     if output_path is not None:
         print("Write predictions in %s..." % output_path, end=' ')
         write_in_file(output_path, parsed_str)

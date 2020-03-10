@@ -68,20 +68,20 @@ optional arguments:
 chmod +x run.sh
 
 # make predictions and parsing evaluations from parsed sentences in the last 10% of 'sequoia-corpus+fct.mrg_strict'
-./run.sh  --train_path='sequoia-corpus+fct.mrg_strict' --test_path='sequoia-corpus+fct.mrg_strict' --mode='evaluation' --train_end=0.8 --test_start=0.9 --test_end=1 --beam=10 -e='polyglot-fr.pkl' --output_path='evaluation_data.parser_output'
+./run.sh  --train_path='sequoia-corpus+fct.mrg_strict' --test_path='sequoia-corpus+fct.mrg_strict' --mode='evaluation' --train_end=0.8 --test_start=0.9 --test_end=1 --beam=25 -e='polyglot-fr.pkl' --output_path='evaluation_data.parser_output'
 
 # make predictions from raw sentences in 'test_file.txt'
-./run.sh -t='sequoia-corpus+fct.mrg_strict' -T='test_file.txt' -m='prediction' --train_end=0.8 --test_start=0 -b=100 -e='polyglot-fr.pkl' -o='test_file_output.txt'
+./run.sh -t='sequoia-corpus+fct.mrg_strict' -T='test_file.txt' -m='prediction' --train_end=0.8 --test_start=0 -b=100 -e='polyglot-fr.pkl' -o='test_output.txt'
 ```
 
 
 
 ##### Example of prediction:
 
-![](/Users/antoinegrosnit/Desktop/MVA/P2/Speech-NLP/TP2/image/les_espaces_infinis.png)
+![](./image/les_espaces_infinis.png)
 
 
 
 ##### Indication on execution time for test sentences taken from the [sequoia corpus](https://github.com/edupoux/MVA_2020_SL/blob/master/TD_%232/sequoia-corpus%2Bfct.mrg_strict):
 
-<img src="/Users/antoinegrosnit/Desktop/MVA/P2/Speech-NLP/TP2/image/execution_times.png" style="zoom:50%;" />
+<img src="./image/execution_times.png" style="zoom:50%;" />
