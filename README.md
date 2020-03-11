@@ -2,7 +2,7 @@
 
 # French grammatical parser
 
-#### Course project ([MVA Course "Algorithms for speech and language processing", 2020, Dupoux, Zeghidour & Sagot](https://github.com/edupoux/MVA_2020_SL)) 
+#### Course assignment ([MVA Course "Algorithms for speech and language processing", 2020, Dupoux, Zeghidour & Sagot](https://github.com/edupoux/MVA_2020_SL)) 
 
 The goal of this project was to develop a basic probabilistic parser for French, based on the CYK algorithm and the PCFG model and that is robust to unknown words.
 
